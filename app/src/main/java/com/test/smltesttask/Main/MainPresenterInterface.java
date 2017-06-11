@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface MainPresenterInterface {
 
-    void onItemClicked(int position);
+    void onItemClicked(int selectedItem);
 
     void fillView(ArrayList<MainModel> items);
 

@@ -5,4 +5,6 @@
     <string name="recycler_view_item_arrow_descriptor">recycler_view_item_arrow_descriptor</string>
     <string name="shape_to_fill">shape_to_fill</string>
     <string name="main_settings_text">Settings</string>
+    <string name="arrow_descriptor">arrow_descriptor</string>
+    <string name="selected_item_view_text">index of selected item</string>
 </resources>

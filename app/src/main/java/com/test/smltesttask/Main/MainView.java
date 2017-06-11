@@ -8,8 +8,10 @@ import android.view.View;
 
 
 import com.test.smltesttask.R;
+import com.test.smltesttask.SelectedItem.SelectedItemView;
 import com.test.smltesttask.Settings.SettingsView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainView extends Activity implements MainViewInterface {
@@ -20,7 +22,7 @@ public class MainView extends Activity implements MainViewInterface {
     private ArrayList<MainModel> arrayOfItems;
     private int countOfItems = 100;
     private double fillOfItemButton = 0.0;
-    private MainPresenter presenter;
+    private MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +33,33 @@ public class MainView extends Activity implements MainViewInterface {
         mContext = this;
         arrayOfItems = createItems();
 
-        presenter = new MainPresenter(this, mContext);
-        fillItems(arrayOfItems);
-
+        mainPresenter = new MainPresenter(this, mContext, mActivity);
+        mainPresenter.fillView(arrayOfItems);
+        //fillItems(arrayOfItems);
     }
 
     @Override
-    public void fillItems(ArrayList<MainModel> itemsFill) {
-        presenter.fillView(arrayOfItems);
-        //itemsRecyclerView.setAdapter(new ItemsRecyclerViewAdapter(arrayOfItems));
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
-    public void navigateToSettingsFragment() {
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void navigateToSettings() {
         startActivity(new Intent(this, SettingsView.class));
         finish();
+    }
+
+    @Override
+    public void navigateToSelectedItem(int selectedItem) {
+        Bundle toPass = new Bundle();
+        toPass.putInt("selectedItem", selectedItem);
+        startActivity(new Intent(this, SelectedItemView.class).putExtras(toPass));
+        //finish();
     }
 
     private ArrayList<MainModel> createItems() {

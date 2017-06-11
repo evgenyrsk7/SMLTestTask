@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public interface MainViewInterface {
 
-    void fillItems(ArrayList<MainModel> itemsFill);
+    void navigateToSettings();
 
-    void navigateToSettingsFragment();
+    void navigateToSelectedItem(int selectedItem);
 
 }

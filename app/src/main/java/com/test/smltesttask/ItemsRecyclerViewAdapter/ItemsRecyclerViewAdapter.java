@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.smltesttask.Main.MainModel;
+import com.test.smltesttask.Main.MainPresenter;
 import com.test.smltesttask.R;
 
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
 
     private ArrayList<MainModel> items;
     private Context mContext;
+    private MainPresenter mainPresenter;
 
-    public ItemsRecyclerViewAdapter(ArrayList<MainModel> items, Context context) {
+    public ItemsRecyclerViewAdapter(ArrayList<MainModel> items, Context context, MainPresenter mainPresenter) {
         this.items = items;
         this.mContext = context;
+        this.mainPresenter = mainPresenter;
     }
 
     @Override
@@ -36,9 +39,18 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         MainModel item = items.get(position);
         holder.index.setText(String.valueOf(item.index));
+
+        holder.index.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainPresenter.onItemClicked(holder.getAdapterPosition());
+            }
+        });
+
+        //ДОБАВИТЬ ЗНАЧЕНИЕ ДЛЯ ЗАКРАШИВАНИЯ КНОПКИ
 
         //holder.buttonToFill.setBac
     }
