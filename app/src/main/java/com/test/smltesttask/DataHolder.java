@@ -21,7 +21,7 @@ public class DataHolder {
 
     private static ArrayList<MainModel> settingsHistory;
 
-    public static ArrayList<MainModel> getSettingsHistor() {
+    public static ArrayList<MainModel> getSettingsHistory() {
         return settingsHistory;
     }
 

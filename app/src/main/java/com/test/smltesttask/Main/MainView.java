@@ -4,34 +4,33 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.test.smltesttask.R;
-import com.test.smltesttask.SelectedItem.SelectedItemView;
-import com.test.smltesttask.Settings.SettingsView;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 
-public class MainView extends Activity implements MainViewInterface {
+public class MainView extends Activity {
 
-    private Activity mActivity;
-    private Context mContext;
     private MainPresenter mainPresenter;
+
+    private RecyclerView itemsRecyclerView;
+    private TextView settingsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mActivity = this;
-        mContext = this;
-
-
-        mainPresenter = new MainPresenter(this, mContext, mActivity);
-        mainPresenter.fillView();
         //fillItems(arrayOfItems);
+
+        itemsRecyclerView = (RecyclerView) findViewById(R.id.items_recycler_view);
+        settingsTextView = (TextView) findViewById(R.id.main_settings_txt);
+
+        mainPresenter = new MainPresenter(this);
+        mainPresenter.fillView();
     }
 
     @Override
@@ -44,18 +43,13 @@ public class MainView extends Activity implements MainViewInterface {
         super.onResume();
     }
 
-    @Override
-    public void navigateToSettings() {
-        startActivity(new Intent(this, SettingsView.class));
-        //finish();
+
+    public RecyclerView getItemsRecyclerView() {
+        return itemsRecyclerView;
     }
 
-    @Override
-    public void navigateToSelectedItem(int selectedItem) {
-        Bundle toPass = new Bundle();
-        toPass.putInt("selectedItem", selectedItem);
-        startActivity(new Intent(this, SelectedItemView.class).putExtras(toPass));
-        //finish();
+    public TextView getSettingsTextView() {
+        return settingsTextView;
     }
 
 }

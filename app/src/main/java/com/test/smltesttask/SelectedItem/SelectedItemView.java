@@ -18,25 +18,27 @@ public class SelectedItemView extends Activity {
 
     private int indexSelectedItem;
     private SelectedItemPresenter selectedItemPresenter;
-    private Context mContext;
-    private Activity mActivity;
+    private TextView indexOfItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selected_item_view);
 
-        mActivity = this;
-        mContext = this;
-
         Bundle toReceive = getIntent().getExtras();
         if (toReceive != null) {
             indexSelectedItem = toReceive.getInt("selectedItem");
         }
 
-        selectedItemPresenter = new SelectedItemPresenter(this, mContext, mActivity);
+        indexOfItem = (TextView) findViewById(R.id.selected_item_txt);
+
+        selectedItemPresenter = new SelectedItemPresenter(this);
         selectedItemPresenter.showItem(indexSelectedItem);
 
+    }
+
+    public TextView getIndexOfItem() {
+        return indexOfItem;
     }
 
 

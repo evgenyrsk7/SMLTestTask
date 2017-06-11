@@ -2,6 +2,8 @@ package com.test.smltesttask.Main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import com.test.smltesttask.DataHolder;
 import com.test.smltesttask.Adapters.ItemsRecyclerViewAdapter;
 import com.test.smltesttask.R;
+import com.test.smltesttask.SelectedItem.SelectedItemView;
+import com.test.smltesttask.Settings.SettingsView;
 
 import java.util.ArrayList;
 
@@ -18,57 +22,45 @@ import java.util.ArrayList;
  * Created by evgen on 10.06.2017.
  */
 
-public class MainPresenter implements MainPresenterInterface {
+public class MainPresenter {
 
     private MainView mainView;
-    private RecyclerView itemsRecyclerView;
-    private Context mContext;
-    private Activity mActivity;
-    private LinearLayoutManager linearLayoutManager;
-    private MainViewDividerItemDecoration mainViewDividerItemDecoration;
-    private TextView settingsTextView;
+
     private ArrayList<MainModel> arrayOfItems;
     private int countOfItems = 100;
     private double fillOfItemButton = 0.0;
 
-    MainPresenter(MainView view, Context context, Activity activity) {
+    MainPresenter(MainView view) {
         this.mainView = view;
-        this.mContext = context;
-        this.mActivity = activity;
     }
 
-    @Override
     public void onItemClicked(int selectedItem) {
-        mainView.navigateToSelectedItem(selectedItem);
+        Bundle toPass = new Bundle();
+        toPass.putInt("selectedItem", selectedItem);
+        mainView.startActivity(new Intent(mainView, SelectedItemView.class).putExtras(toPass));
+        //finish();
     }
 
-    @Override
-    public void fillView() {
+    void fillView() {
         arrayOfItems = createItems();
-        itemsRecyclerView = (RecyclerView) this.mainView.findViewById(R.id.items_recycler_view);
-        itemsRecyclerView.addItemDecoration(getMainViewDividerItemDecoration());
-        itemsRecyclerView.setLayoutManager(getLinearLayoutManager());
-        itemsRecyclerView.setAdapter(new ItemsRecyclerViewAdapter(arrayOfItems, mContext, this));
 
-        settingsTextView = (TextView) this.mainView.findViewById(R.id.main_settings_txt);
-        settingsTextView.setOnClickListener(new View.OnClickListener() {
+        mainView.getItemsRecyclerView().addItemDecoration(getMainViewDividerItemDecoration());
+        mainView.getItemsRecyclerView().setLayoutManager(getLinearLayoutManager());
+        mainView.getItemsRecyclerView().setAdapter(new ItemsRecyclerViewAdapter(arrayOfItems, mainView.getApplicationContext(), this));
+
+        mainView.getSettingsTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainView.navigateToSettings();
+                navigateToSettings();
             }
         });
 
         saveItemsArray(arrayOfItems);
     }
 
-    @Override
-    public void onResume() {
 
-    }
-
-    @Override
-    public void onDestroy() {
-
+    private void navigateToSettings() {
+        mainView.startActivity(new Intent(mainView, SettingsView.class));
     }
 
     private ArrayList<MainModel> createItems() {
@@ -89,12 +81,10 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     private LinearLayoutManager getLinearLayoutManager() {
-        linearLayoutManager = new LinearLayoutManager(mContext);
-        return  linearLayoutManager;
+        return new LinearLayoutManager(mainView.getApplicationContext());
     }
 
     private MainViewDividerItemDecoration getMainViewDividerItemDecoration() {
-        mainViewDividerItemDecoration = new MainViewDividerItemDecoration(mContext);
-        return mainViewDividerItemDecoration;
+        return new MainViewDividerItemDecoration(mainView.getApplicationContext());
     }
 }

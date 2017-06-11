@@ -1,10 +1,10 @@
 package com.test.smltesttask.Settings;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
 
-import com.test.smltesttask.R;
+import com.test.smltesttask.Adapters.SettingsHistoryRecyclerViewAdapter;
+import com.test.smltesttask.DataHolder;
+import com.test.smltesttask.Main.MainViewDividerItemDecoration;
 
 /**
  * Created by evgen on 11.06.2017.
@@ -13,19 +13,23 @@ import com.test.smltesttask.R;
 class SettingsPresenter {
 
     private SettingsView settingsView;
-    private Context mContext;
-    private Activity mActivity;
-    private RecyclerView settingsRecyclerView;
 
-    SettingsPresenter(SettingsView settingsView, Context context, Activity activity) {
+    SettingsPresenter(SettingsView settingsView) {
         this.settingsView = settingsView;
-        this.mActivity = activity;
-        this.mContext = context;
     }
 
-    public void fillHistory() {
-        settingsRecyclerView = (RecyclerView) settingsView.findViewById(R.id.settings_view_recycler_view);
+    void fillHistory() {
+        settingsView.getSettingsRecyclerView().addItemDecoration(getMainViewDividerItemDecoration());
+        settingsView.getSettingsRecyclerView().setLayoutManager(getLinearLayoutManager());
+        settingsView.getSettingsRecyclerView().setAdapter(new SettingsHistoryRecyclerViewAdapter(DataHolder.getSettingsHistory() == null ? null : DataHolder.getSettingsHistory(), settingsView.getApplicationContext()));
+    }
 
+    private LinearLayoutManager getLinearLayoutManager() {
+        return new LinearLayoutManager(settingsView.getApplicationContext());
+    }
+
+    private MainViewDividerItemDecoration getMainViewDividerItemDecoration() {
+        return new MainViewDividerItemDecoration(settingsView.getApplicationContext());
     }
 
 

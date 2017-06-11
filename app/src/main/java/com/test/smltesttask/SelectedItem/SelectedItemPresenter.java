@@ -17,22 +17,19 @@ import java.util.ArrayList;
 class SelectedItemPresenter  {
 
     private SelectedItemView selectedItemView;
-    private Context mContext;
-    private Activity mActivity;
-    private TextView indexOfItem;
+
+
     private double buttonFillDegree;
 
-    SelectedItemPresenter(SelectedItemView selectedItemView, Context context, Activity activity) {
+    SelectedItemPresenter(SelectedItemView selectedItemView) {
         this.selectedItemView = selectedItemView;
-        this.mContext = context;
-        this.mActivity = activity;
 
-        indexOfItem = (TextView) this.selectedItemView.findViewById(R.id.selected_item_txt);
+
     }
 
     public void showItem(int selectedItem) {
         MainModel itemToShow = getItemWithIndex(selectedItem);
-        indexOfItem.setText(String.valueOf(itemToShow.getIndex()));
+        selectedItemView.getIndexOfItem().setText(String.valueOf(itemToShow.getIndex()));
 
         //ЗАПОЛНЕНИЕ КНОПКИ
     }
