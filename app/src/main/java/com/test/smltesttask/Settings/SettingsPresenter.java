@@ -100,6 +100,9 @@ class SettingsPresenter {
         settingsHistoryRecyclerViewAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Clear focus from edit text
+     */
     private void ClearFocusFromEditText() {
         settingsView.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
