@@ -1,12 +1,10 @@
 package com.test.smltesttask.SelectedItem;
 
-import android.app.Activity;
-import android.content.Context;
-import android.widget.TextView;
+import android.graphics.Canvas;
 
+import com.test.smltesttask.ColorBarDrawable;
 import com.test.smltesttask.DataHolder;
-import com.test.smltesttask.Main.MainModel;
-import com.test.smltesttask.R;
+import com.test.smltesttask.Models.ItemModel;
 
 import java.util.ArrayList;
 
@@ -18,28 +16,33 @@ class SelectedItemPresenter  {
 
     private SelectedItemView selectedItemView;
 
-
-    private double buttonFillDegree;
-
+    /**
+     * Constructor
+     * @param selectedItemView - a view of the activity which shows the selected item
+     */
     SelectedItemPresenter(SelectedItemView selectedItemView) {
         this.selectedItemView = selectedItemView;
-
-
     }
 
-    public void showItem(int selectedItem) {
-        MainModel itemToShow = getItemWithIndex(selectedItem);
+    /**
+     * Show the selected item separately
+     * @param selectedItem - an index of the selected item
+     */
+    void showItem(int selectedItem) {
+        ItemModel itemToShow = getItemsArray().get(selectedItem);
         selectedItemView.getIndexOfItem().setText(String.valueOf(itemToShow.getIndex()));
 
-        //ЗАПОЛНЕНИЕ КНОПКИ
+        ColorBarDrawable colorBarDrawable = new ColorBarDrawable(itemToShow, selectedItemView.getApplicationContext());
+        Canvas canvas = new Canvas();
+        colorBarDrawable.draw(canvas);
+        selectedItemView.getRelativeLayoutForButtonBackground().setBackground(colorBarDrawable);
     }
 
-    private MainModel getItemWithIndex(int indexSelectedItem) {
-        ArrayList<MainModel> itemsArray = getItemsArray();
-        return itemsArray.get(indexSelectedItem);
-    }
-
-    private ArrayList<MainModel> getItemsArray() {
+    /**
+     * Getter
+     * @return - returns an array of the items from DataHolder's static field
+     */
+    private ArrayList<ItemModel> getItemsArray() {
         return DataHolder.getItemsArray();
     }
 

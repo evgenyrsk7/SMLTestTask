@@ -23,7 +23,10 @@ public class SettingsView extends Activity {
     private EditText fillDegreeEditText;
     private Button okButton;
 
-
+    /**
+     * Initialization of the settings' activity components
+     * @param savedInstanceState - instance state
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +50,26 @@ public class SettingsView extends Activity {
         });
     }
 
+    /**
+     * Getter
+     * @return - returns a recycler view for showing history
+     */
     public RecyclerView getSettingsRecyclerView() {
         return settingsRecyclerView;
     }
 
+    /**
+     * Getter
+     * @return - returns a row field
+     */
     public EditText getRowEditText() {
         return rowEditText;
     }
 
+    /**
+     * Getter
+     * @return - returns a fill degree field
+     */
     public EditText getFillDegreeEditText() {
         return fillDegreeEditText;
     }

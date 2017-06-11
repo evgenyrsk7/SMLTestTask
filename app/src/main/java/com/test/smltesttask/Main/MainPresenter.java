@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.test.smltesttask.DataHolder;
 import com.test.smltesttask.Adapters.ItemsRecyclerViewAdapter;
+import com.test.smltesttask.DividerItemDecoration;
+import com.test.smltesttask.Models.ItemModel;
 import com.test.smltesttask.ItemsIndexComparator;
 import com.test.smltesttask.SelectedItem.SelectedItemView;
 import com.test.smltesttask.Settings.SettingsView;
@@ -22,22 +24,29 @@ import java.util.Collections;
 public class MainPresenter {
 
     private MainView mainView;
-
-    private ArrayList<MainModel> arrayOfItems;
-    private int countOfItems = 100;
-    private double fillOfItemButton = 0.0;
+    /** adapter for items */
     private ItemsRecyclerViewAdapter itemsRecyclerViewAdapter;
 
-    MainPresenter(MainView view) {
-        this.mainView = view;
+    /**
+     * Constructor
+     * @param mainView - a view of the main activity (shows all 100 items)
+     */
+    MainPresenter(MainView mainView) {
+        this.mainView = mainView;
     }
 
+    /**
+     * Fill view's components
+     */
     void fillView() {
+        ArrayList<ItemModel> arrayOfItems;
         if (DataHolder.readItemsArrayFromFile(mainView, "items") == null)
             arrayOfItems = createItems();
         else
             arrayOfItems = DataHolder.readItemsArrayFromFile(mainView, "items");
-        Collections.sort(arrayOfItems, new ItemsIndexComparator());
+        if (arrayOfItems != null) {
+            Collections.sort(arrayOfItems, new ItemsIndexComparator());
+        }
 
         mainView.getItemsRecyclerView().addItemDecoration(getMainViewDividerItemDecoration());
         mainView.getItemsRecyclerView().setLayoutManager(getLinearLayoutManager());
@@ -54,45 +63,65 @@ public class MainPresenter {
         saveItemsArray(arrayOfItems);
     }
 
+    /**
+     * Updating the recycler view when some items have been changed
+     */
     void updateView() {
         itemsRecyclerViewAdapter.notifyDataSetChanged();
         DataHolder.recordItemsArrayToFile(mainView.getApplicationContext(), "items");
     }
 
+    /**
+     * Show the selected item separately
+     * @param selectedItem - an index of the selected item
+     */
     public void onItemClicked(int selectedItem) {
         Bundle toPass = new Bundle();
         toPass.putInt("selectedItem", selectedItem);
         mainView.startActivity(new Intent(mainView, SelectedItemView.class).putExtras(toPass));
-        //mainView.finish();
     }
 
     private void navigateToSettings() {
         mainView.startActivity(new Intent(mainView, SettingsView.class));
-        //mainView.finish();
     }
 
-    private ArrayList<MainModel> createItems() {
-        ArrayList<MainModel> arrayOfItems = new ArrayList<>();
+    /**
+     * Create items if an user has entered first time
+     * @return - returns a new array of items when user has entered first time
+     */
+    private ArrayList<ItemModel> createItems() {
+        ArrayList<ItemModel> arrayOfItems = new ArrayList<>();
+        int countOfItems = 100;
         for (int i = 0; i < countOfItems; i++) {
-            MainModel item = new MainModel(i, fillOfItemButton);
+            double fillOfItemButton = 0.0;
+            ItemModel item = new ItemModel(i, fillOfItemButton);
             arrayOfItems.add(item);
         }
         return arrayOfItems;
 
     }
 
-    private void saveItemsArray(ArrayList<MainModel> items) {
+    /**
+     * Save the items array
+     * @param items - all the 100 items for saving at the DataHolder's static field
+     */
+    private void saveItemsArray(ArrayList<ItemModel> items) {
         DataHolder.setItemsArray(items);
-        /*SharedPreferences.Editor editor = mActivity.getPreferences(Activity.MODE_PRIVATE).edit();
-        editor.putString("items", items.toString());
-        editor.commit();*/
     }
 
+    /**
+     * Getter
+     * @return - returns a new layout manager for the recyclerView
+     */
     private LinearLayoutManager getLinearLayoutManager() {
         return new LinearLayoutManager(mainView.getApplicationContext());
     }
 
-    private MainViewDividerItemDecoration getMainViewDividerItemDecoration() {
-        return new MainViewDividerItemDecoration(mainView.getApplicationContext());
+    /**
+     * Getter
+     * @return - returns a new layout manager for the recyclerView
+     */
+    private DividerItemDecoration getMainViewDividerItemDecoration() {
+        return new DividerItemDecoration(mainView.getApplicationContext());
     }
 }

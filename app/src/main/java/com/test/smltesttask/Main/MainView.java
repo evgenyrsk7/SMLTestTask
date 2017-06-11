@@ -15,10 +15,13 @@ import com.test.smltesttask.R;
 public class MainView extends Activity {
 
     private MainPresenter mainPresenter;
-
     private RecyclerView itemsRecyclerView;
     private TextView settingsTextView;
 
+    /**
+     * Initialization of the main activity components
+     * @param savedInstanceState - instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,27 +36,27 @@ public class MainView extends Activity {
         mainPresenter.fillView();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
+    /**
+     * On resume event of the main activity (update components)
+     */
     @Override
     protected void onResume() {
         super.onResume();
         mainPresenter.updateView();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        //finishActivity(0);
-    }
-
+    /**
+     * Getter
+     * @return - returns the recyclerView for showing items
+     */
     public RecyclerView getItemsRecyclerView() {
         return itemsRecyclerView;
     }
 
+    /**
+     * Getter
+     * @return - returns the settings text view
+     */
     public TextView getSettingsTextView() {
         return settingsTextView;
     }

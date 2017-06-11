@@ -1,10 +1,8 @@
 package com.test.smltesttask;
 
 import android.content.Context;
-import android.provider.ContactsContract;
-import android.util.Log;
 
-import com.test.smltesttask.Main.MainModel;
+import com.test.smltesttask.Models.ItemModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,33 +13,60 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 
 /**
  * Created by evgen on 11.06.2017.
  */
 
 public class DataHolder {
-    private static ArrayList<MainModel> items;
 
-    public static ArrayList<MainModel> getItemsArray() {
+    /**
+     * the static field to store all the items
+     */
+    private static ArrayList<ItemModel> items;
+
+    /**
+     * Getter
+     * @return - returns the stored items
+     */
+    public static ArrayList<ItemModel> getItemsArray() {
         return items;
     }
 
-    public static void setItemsArray(ArrayList<MainModel> items) {
+    /**
+     * Setter
+     * @param items - set items to store in the static field
+     */
+    public static void setItemsArray(ArrayList<ItemModel> items) {
         DataHolder.items = items;
     }
 
-    private static ArrayList<MainModel> settingsHistory;
+    /**
+     * the static field to store the history items
+     */
+    private static ArrayList<ItemModel> settingsHistory;
 
-    public static ArrayList<MainModel> getSettingsHistory() {
+    /**
+     * Getter
+     * @return - returns the stored history
+     */
+    public static ArrayList<ItemModel> getSettingsHistory() {
         return settingsHistory;
     }
 
-    public static void setSettingsHistory(ArrayList<MainModel> settingsHistory) {
+    /**
+     * Setter
+     * @param settingsHistory - set history items to store in the static field
+     */
+    public static void setSettingsHistory(ArrayList<ItemModel> settingsHistory) {
         DataHolder.settingsHistory = settingsHistory;
     }
 
+    /**
+     * Save to file
+     * @param context - current state
+     * @param fileNameString - the name of saving file
+     */
     public static void recordItemsArrayToFile(Context context, String fileNameString) {
         File fileName = null;
         String sdState = android.os.Environment.getExternalStorageState();
@@ -64,7 +89,13 @@ public class DataHolder {
         }
     }
 
-    public static ArrayList<MainModel> readItemsArrayFromFile(Context context, String fileNameString) {
+    /**
+     * Read from file
+     * @param context - current state
+     * @param fileNameString - the name of reading file
+     * @return - returns the read file
+     */
+    public static ArrayList<ItemModel> readItemsArrayFromFile(Context context, String fileNameString) {
         try {
             String path = context.getApplicationInfo().dataDir;
             File fileName = new File(path, fileNameString);
@@ -90,9 +121,14 @@ public class DataHolder {
         }
     }
 
-    private static JSONObject convertedFromArrayListToJson(ArrayList<MainModel> itemsArray) {
+    /**
+     * Convert from array list to JSON object
+     * @param itemsArray - an array of the items
+     * @return - returns converted object
+     */
+    private static JSONObject convertedFromArrayListToJson(ArrayList<ItemModel> itemsArray) {
         JSONObject itemsJson = new JSONObject();
-        for (MainModel item : itemsArray) {
+        for (ItemModel item : itemsArray) {
             try {
                 itemsJson.put(String.valueOf(item.getIndex()), String.valueOf(item.getFill()));
             } catch (JSONException e) {
@@ -103,8 +139,13 @@ public class DataHolder {
         return itemsJson;
     }
 
-    private static ArrayList<MainModel> convertedFromJsonToArrayList(JSONObject itemsJson) {
-        ArrayList<MainModel> itemsArray = new ArrayList<>();
+    /**
+     * Convert from JSON to array list
+     * @param itemsJson - JSON file
+     * @return - returns converted array list object
+     */
+    private static ArrayList<ItemModel> convertedFromJsonToArrayList(JSONObject itemsJson) {
+        ArrayList<ItemModel> itemsArray = new ArrayList<>();
         Iterator<String> iterator = itemsJson.keys();
         int indexOfItem;
         double fillDegree;
@@ -112,7 +153,7 @@ public class DataHolder {
             try {
                 indexOfItem = Integer.parseInt(iterator.next());
                 fillDegree = Double.parseDouble(itemsJson.getString(String.valueOf(indexOfItem)));
-                itemsArray.add(new MainModel(indexOfItem, fillDegree));
+                itemsArray.add(new ItemModel(indexOfItem, fillDegree));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
