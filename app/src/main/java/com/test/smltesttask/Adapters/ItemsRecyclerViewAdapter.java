@@ -1,4 +1,4 @@
-package com.test.smltesttask.ItemsRecyclerViewAdapter;
+package com.test.smltesttask.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +41,7 @@ public class ItemsRecyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         MainModel item = items.get(position);
-        holder.index.setText(String.valueOf(item.index));
+        holder.index.setText(String.valueOf(item.getIndex()));
 
         holder.index.setOnClickListener(new View.OnClickListener() {
             @Override

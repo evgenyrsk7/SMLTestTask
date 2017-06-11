@@ -18,10 +18,6 @@ public class MainView extends Activity implements MainViewInterface {
 
     private Activity mActivity;
     private Context mContext;
-    private View fragment;
-    private ArrayList<MainModel> arrayOfItems;
-    private int countOfItems = 100;
-    private double fillOfItemButton = 0.0;
     private MainPresenter mainPresenter;
 
     @Override
@@ -31,10 +27,10 @@ public class MainView extends Activity implements MainViewInterface {
 
         mActivity = this;
         mContext = this;
-        arrayOfItems = createItems();
+
 
         mainPresenter = new MainPresenter(this, mContext, mActivity);
-        mainPresenter.fillView(arrayOfItems);
+        mainPresenter.fillView();
         //fillItems(arrayOfItems);
     }
 
@@ -51,7 +47,7 @@ public class MainView extends Activity implements MainViewInterface {
     @Override
     public void navigateToSettings() {
         startActivity(new Intent(this, SettingsView.class));
-        finish();
+        //finish();
     }
 
     @Override
@@ -62,15 +58,4 @@ public class MainView extends Activity implements MainViewInterface {
         //finish();
     }
 
-    private ArrayList<MainModel> createItems() {
-        ArrayList<MainModel> arrayOfItems = new ArrayList<>();
-        for (int i = 0; i < countOfItems; i++) {
-            MainModel item = new MainModel();
-            item.index = i;
-            item.fill = fillOfItemButton;
-            arrayOfItems.add(item);
-        }
-        return arrayOfItems;
-
-    }
 }

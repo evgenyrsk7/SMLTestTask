@@ -10,7 +10,7 @@ public interface MainPresenterInterface {
 
     void onItemClicked(int selectedItem);
 
-    void fillView(ArrayList<MainModel> items);
+    void fillView();
 
     void onResume();
 

@@ -2,13 +2,14 @@ package com.test.smltesttask.Main;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 
 import com.test.smltesttask.DataHolder;
-import com.test.smltesttask.ItemsRecyclerViewAdapter.ItemsRecyclerViewAdapter;
+import com.test.smltesttask.Adapters.ItemsRecyclerViewAdapter;
 import com.test.smltesttask.R;
 
 import java.util.ArrayList;
@@ -25,15 +26,15 @@ public class MainPresenter implements MainPresenterInterface {
     private Activity mActivity;
     private LinearLayoutManager linearLayoutManager;
     private MainViewDividerItemDecoration mainViewDividerItemDecoration;
+    private TextView settingsTextView;
+    private ArrayList<MainModel> arrayOfItems;
+    private int countOfItems = 100;
+    private double fillOfItemButton = 0.0;
 
     MainPresenter(MainView view, Context context, Activity activity) {
         this.mainView = view;
         this.mContext = context;
         this.mActivity = activity;
-
-        itemsRecyclerView = (RecyclerView) this.mainView.findViewById(R.id.items_recycler_view);
-        itemsRecyclerView.addItemDecoration(getMainViewDividerItemDecoration());
-        itemsRecyclerView.setLayoutManager(getLinearLayoutManager());
     }
 
     @Override
@@ -42,9 +43,22 @@ public class MainPresenter implements MainPresenterInterface {
     }
 
     @Override
-    public void fillView(ArrayList<MainModel> items) {
-        itemsRecyclerView.setAdapter(new ItemsRecyclerViewAdapter(items, mContext, this));
-        saveItemsArray(items);
+    public void fillView() {
+        arrayOfItems = createItems();
+        itemsRecyclerView = (RecyclerView) this.mainView.findViewById(R.id.items_recycler_view);
+        itemsRecyclerView.addItemDecoration(getMainViewDividerItemDecoration());
+        itemsRecyclerView.setLayoutManager(getLinearLayoutManager());
+        itemsRecyclerView.setAdapter(new ItemsRecyclerViewAdapter(arrayOfItems, mContext, this));
+
+        settingsTextView = (TextView) this.mainView.findViewById(R.id.main_settings_txt);
+        settingsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainView.navigateToSettings();
+            }
+        });
+
+        saveItemsArray(arrayOfItems);
     }
 
     @Override
@@ -57,8 +71,18 @@ public class MainPresenter implements MainPresenterInterface {
 
     }
 
+    private ArrayList<MainModel> createItems() {
+        ArrayList<MainModel> arrayOfItems = new ArrayList<>();
+        for (int i = 0; i < countOfItems; i++) {
+            MainModel item = new MainModel(i, fillOfItemButton);
+            arrayOfItems.add(item);
+        }
+        return arrayOfItems;
+
+    }
+
     private void saveItemsArray(ArrayList<MainModel> items) {
-        DataHolder.setData(items);
+        DataHolder.setItemsArray(items);
         /*SharedPreferences.Editor editor = mActivity.getPreferences(Activity.MODE_PRIVATE).edit();
         editor.putString("items", items.toString());
         editor.commit();*/

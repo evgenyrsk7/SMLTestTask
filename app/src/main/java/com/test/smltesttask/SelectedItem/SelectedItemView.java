@@ -2,21 +2,13 @@ package com.test.smltesttask.SelectedItem;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.test.smltesttask.DataHolder;
-import com.test.smltesttask.Main.MainModel;
-import com.test.smltesttask.Main.MainPresenter;
+
 import com.test.smltesttask.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by evgen on 11.06.2017.
@@ -24,7 +16,6 @@ import java.util.List;
 
 public class SelectedItemView extends Activity {
 
-    private TextView indexOfSelectedItem;
     private int indexSelectedItem;
     private SelectedItemPresenter selectedItemPresenter;
     private Context mContext;
@@ -44,17 +35,9 @@ public class SelectedItemView extends Activity {
         }
 
         selectedItemPresenter = new SelectedItemPresenter(this, mContext, mActivity);
-        selectedItemPresenter.showItem(getItemWithIndex(indexSelectedItem));
+        selectedItemPresenter.showItem(indexSelectedItem);
 
     }
 
-    private MainModel getItemWithIndex(int indexSelectedItem) {
-        ArrayList<MainModel> itemsArray = getItemsArray();
-        return itemsArray.get(indexSelectedItem);
-    }
-
-    private ArrayList<MainModel> getItemsArray() {
-        return DataHolder.getData();
-    }
 
 }

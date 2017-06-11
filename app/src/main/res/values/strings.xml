@@ -7,4 +7,7 @@
     <string name="main_settings_text">Settings</string>
     <string name="arrow_descriptor">arrow_descriptor</string>
     <string name="selected_item_view_text">index of selected item</string>
+    <string name="settings_view_row_txt">Row</string>
+    <string name="settings_view_degree_fill_txt">% (0..1)</string>
+    <string name="settings_view_button_txt">Ok</string>
 </resources>

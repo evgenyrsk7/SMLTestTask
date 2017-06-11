@@ -10,8 +10,22 @@ import java.util.ArrayList;
 
 public class DataHolder {
     private static ArrayList<MainModel> items;
-    public static ArrayList<MainModel> getData() {return items;}
-    public static void setData(ArrayList<MainModel> items) {
+
+    public static ArrayList<MainModel> getItemsArray() {
+        return items;
+    }
+
+    public static void setItemsArray(ArrayList<MainModel> items) {
         DataHolder.items = items;
+    }
+
+    private static ArrayList<MainModel> settingsHistory;
+
+    public static ArrayList<MainModel> getSettingsHistor() {
+        return settingsHistory;
+    }
+
+    public static void setSettingsHistory(ArrayList<MainModel> settingsHistory) {
+        DataHolder.settingsHistory = settingsHistory;
     }
 }

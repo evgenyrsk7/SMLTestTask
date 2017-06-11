@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 
+import com.test.smltesttask.DataHolder;
 import com.test.smltesttask.Main.MainModel;
 import com.test.smltesttask.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by evgen on 11.06.2017.
  */
 
-public class SelectedItemPresenter  {
+class SelectedItemPresenter  {
 
     private SelectedItemView selectedItemView;
     private Context mContext;
@@ -27,10 +30,21 @@ public class SelectedItemPresenter  {
         indexOfItem = (TextView) this.selectedItemView.findViewById(R.id.selected_item_txt);
     }
 
-    public void showItem(MainModel itemToShow) {
-        indexOfItem.setText(String.valueOf(itemToShow.index));
+    public void showItem(int selectedItem) {
+        MainModel itemToShow = getItemWithIndex(selectedItem);
+        indexOfItem.setText(String.valueOf(itemToShow.getIndex()));
 
         //ЗАПОЛНЕНИЕ КНОПКИ
     }
+
+    private MainModel getItemWithIndex(int indexSelectedItem) {
+        ArrayList<MainModel> itemsArray = getItemsArray();
+        return itemsArray.get(indexSelectedItem);
+    }
+
+    private ArrayList<MainModel> getItemsArray() {
+        return DataHolder.getItemsArray();
+    }
+
 
 }
