@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">SMLTestTask</string>
+    <string name="app_name">SML</string>
+    <string name="recycler_view_item_index">index</string>
+    <string name="recycler_view_item_button">Button</string>
+    <string name="recycler_view_item_arrow_descriptor">recycler_view_item_arrow_descriptor</string>
+    <string name="shape_to_fill">shape_to_fill</string>
+    <string name="main_settings_text">Settings</string>
 </resources>
