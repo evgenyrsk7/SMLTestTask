@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.test.smltesttask.R;
 
@@ -43,7 +42,7 @@ public class SettingsView extends Activity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                settingsPresenter.changeItem();
+                settingsPresenter.onClickedOkButton();
             }
         });
     }

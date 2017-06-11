@@ -45,13 +45,8 @@ public class DataHolder {
     public static void recordItemsArrayToFile(Context context, String fileNameString) {
         File fileName = null;
         String sdState = android.os.Environment.getExternalStorageState();
-        if (sdState.equals(android.os.Environment.MEDIA_MOUNTED)) {
-            String path = context.getApplicationInfo().dataDir;
-            fileName = new File(path, fileNameString);
-        } else {
-            fileName = context.getCacheDir();
-        }
-
+        String path = context.getApplicationInfo().dataDir;
+        fileName = new File(path, fileNameString);
         if (!fileName.exists()) {
             fileName.getParentFile().mkdirs();
         }
@@ -110,22 +105,13 @@ public class DataHolder {
 
     private static ArrayList<MainModel> convertedFromJsonToArrayList(JSONObject itemsJson) {
         ArrayList<MainModel> itemsArray = new ArrayList<>();
-        //int itemsJsonLength = itemsJson.length();
-        /*for (int i = 0; i < itemsJsonLength; i++) {
-            try {
-                itemsArray.add(new MainModel(i, Double.parseDouble(itemsJson.getString(String.valueOf(i)))));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }*/
         Iterator<String> iterator = itemsJson.keys();
         int indexOfItem;
         double fillDegree;
         while (iterator.hasNext()) {
             try {
                 indexOfItem = Integer.parseInt(iterator.next());
-                fillDegree =  Double.parseDouble(itemsJson.getString(String.valueOf(indexOfItem)));
+                fillDegree = Double.parseDouble(itemsJson.getString(String.valueOf(indexOfItem)));
                 itemsArray.add(new MainModel(indexOfItem, fillDegree));
             } catch (JSONException e) {
                 e.printStackTrace();

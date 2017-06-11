@@ -9,6 +9,7 @@ import com.test.smltesttask.Main.MainModel;
 import com.test.smltesttask.Main.MainViewDividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by evgen on 11.06.2017.
@@ -42,27 +43,36 @@ class SettingsPresenter {
         return new MainViewDividerItemDecoration(settingsView.getApplicationContext());
     }
 
-    void changeItem() {
+    void onClickedOkButton() {
         int itemIndex = Integer.parseInt(settingsView.getRowEditText().getText().toString());
         double fillDegree = Double.parseDouble(settingsView.getFillDegreeEditText().getText().toString());
+        boolean set = false;
 
         ArrayList<MainModel> items = DataHolder.getItemsArray();
         items.set(itemIndex, new MainModel(itemIndex, fillDegree));
         DataHolder.setItemsArray(items);
-
-        historyItems = DataHolder.getSettingsHistory();
+        
         if (historyItems == null)
             historyItems = new ArrayList<>();
-        historyItems.add(new MainModel(itemIndex, fillDegree));
+
+        for (int i = 0; i < historyItems.size(); i++) {
+            if (historyItems.get(i).getIndex() == itemIndex) {
+                historyItems.set(i, new MainModel(itemIndex, fillDegree));
+                set = true;
+                break;
+            }
+        }
+        if (!set)
+            historyItems.add(new MainModel(itemIndex, fillDegree));
+
         DataHolder.setSettingsHistory(historyItems);
         DataHolder.recordItemsArrayToFile(settingsView, "history");
 
-        //settingsHistoryRecyclerViewAdapter.notifyDataSetChanged();
         settingsHistoryRecyclerViewAdapter = new SettingsHistoryRecyclerViewAdapter(DataHolder.getSettingsHistory() == null ? new ArrayList<MainModel>() : DataHolder.getSettingsHistory(), settingsView.getApplicationContext());
-        //settingsHistoryRecyclerViewAdapter.notifyItemChanged(historyItems.size());
         settingsView.getSettingsRecyclerView().setAdapter(settingsHistoryRecyclerViewAdapter);
         settingsHistoryRecyclerViewAdapter.notifyDataSetChanged();
     }
+
 
 
 }
