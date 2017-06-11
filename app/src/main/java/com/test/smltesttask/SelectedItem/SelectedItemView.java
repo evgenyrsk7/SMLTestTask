@@ -37,6 +37,12 @@ public class SelectedItemView extends Activity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     public TextView getIndexOfItem() {
         return indexOfItem;
     }

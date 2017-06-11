@@ -29,24 +29,22 @@ public class MainPresenter {
     private ArrayList<MainModel> arrayOfItems;
     private int countOfItems = 100;
     private double fillOfItemButton = 0.0;
+    private ItemsRecyclerViewAdapter itemsRecyclerViewAdapter;
 
     MainPresenter(MainView view) {
         this.mainView = view;
     }
 
-    public void onItemClicked(int selectedItem) {
-        Bundle toPass = new Bundle();
-        toPass.putInt("selectedItem", selectedItem);
-        mainView.startActivity(new Intent(mainView, SelectedItemView.class).putExtras(toPass));
-        //finish();
-    }
-
     void fillView() {
-        arrayOfItems = createItems();
+        if (DataHolder.readItemsArrayFromFile(mainView, "items") == null)
+            arrayOfItems = createItems();
+        else
+            arrayOfItems = DataHolder.readItemsArrayFromFile(mainView, "items");
 
         mainView.getItemsRecyclerView().addItemDecoration(getMainViewDividerItemDecoration());
         mainView.getItemsRecyclerView().setLayoutManager(getLinearLayoutManager());
-        mainView.getItemsRecyclerView().setAdapter(new ItemsRecyclerViewAdapter(arrayOfItems, mainView.getApplicationContext(), this));
+        itemsRecyclerViewAdapter = new ItemsRecyclerViewAdapter(arrayOfItems, mainView.getApplicationContext(), this);
+        mainView.getItemsRecyclerView().setAdapter(itemsRecyclerViewAdapter);
 
         mainView.getSettingsTextView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +56,21 @@ public class MainPresenter {
         saveItemsArray(arrayOfItems);
     }
 
+    void updateView() {
+        itemsRecyclerViewAdapter.notifyDataSetChanged();
+        DataHolder.recordItemsArrayToFile(mainView.getApplicationContext(), "items");
+    }
+
+    public void onItemClicked(int selectedItem) {
+        Bundle toPass = new Bundle();
+        toPass.putInt("selectedItem", selectedItem);
+        mainView.startActivity(new Intent(mainView, SelectedItemView.class).putExtras(toPass));
+        //mainView.finish();
+    }
 
     private void navigateToSettings() {
         mainView.startActivity(new Intent(mainView, SettingsView.class));
+        //mainView.finish();
     }
 
     private ArrayList<MainModel> createItems() {

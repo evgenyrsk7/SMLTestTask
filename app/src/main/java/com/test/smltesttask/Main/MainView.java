@@ -41,8 +41,14 @@ public class MainView extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        mainPresenter.updateView();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //finishActivity(0);
+    }
 
     public RecyclerView getItemsRecyclerView() {
         return itemsRecyclerView;
