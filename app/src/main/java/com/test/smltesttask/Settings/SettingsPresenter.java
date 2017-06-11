@@ -1,6 +1,8 @@
 package com.test.smltesttask.Settings;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.test.smltesttask.Adapters.SettingsHistoryRecyclerViewAdapter;
 import com.test.smltesttask.DataHolder;
@@ -23,6 +25,7 @@ class SettingsPresenter {
 
     /**
      * Constructor
+     *
      * @param settingsView - a view of the settings activity
      */
     SettingsPresenter(SettingsView settingsView) {
@@ -34,17 +37,21 @@ class SettingsPresenter {
      */
     void fillHistory() {
         historyItems = DataHolder.readItemsArrayFromFile(settingsView, "history");
-        Collections.sort(historyItems, new ItemsIndexComparator());
+        if (historyItems != null)
+            Collections.sort(historyItems, new ItemsIndexComparator());
         DataHolder.setSettingsHistory(historyItems);
 
         settingsView.getSettingsRecyclerView().addItemDecoration(getMainViewDividerItemDecoration());
         settingsView.getSettingsRecyclerView().setLayoutManager(getLinearLayoutManager());
         settingsHistoryRecyclerViewAdapter = new SettingsHistoryRecyclerViewAdapter(DataHolder.getSettingsHistory() == null ? new ArrayList<ItemModel>() : DataHolder.getSettingsHistory(), settingsView.getApplicationContext());
         settingsView.getSettingsRecyclerView().setAdapter(settingsHistoryRecyclerViewAdapter);
+
+        ClearFocusFromEditText();
     }
 
     /**
      * Getter
+     *
      * @return - returns a layout manager for a recycler view
      */
     private LinearLayoutManager getLinearLayoutManager() {
@@ -53,6 +60,7 @@ class SettingsPresenter {
 
     /**
      * Getter
+     *
      * @return - returns a divider item decoration for dividing items
      */
     private DividerItemDecoration getMainViewDividerItemDecoration() {
@@ -92,6 +100,9 @@ class SettingsPresenter {
         settingsHistoryRecyclerViewAdapter.notifyDataSetChanged();
     }
 
+    private void ClearFocusFromEditText() {
+        settingsView.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
 
 
 }

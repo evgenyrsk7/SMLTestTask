@@ -28,7 +28,7 @@
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="@drawable/button_selector"
             android:text="@string/recycler_view_item_button"
             android:textColor="@android:color/white"
             android:visibility="visible" />

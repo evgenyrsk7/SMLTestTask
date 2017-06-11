@@ -27,7 +27,7 @@
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
+            android:background="@drawable/button_selector"
             android:text="@string/recycler_view_item_button"
             android:textColor="@android:color/white"
             android:visibility="visible" />
@@ -35,8 +35,9 @@
 
     <ImageView
         android:id="@+id/recycler_view_item_arrow"
-        android:layout_width="80dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
+        android:padding="8dp"
         android:layout_gravity="center"
         android:contentDescription="@string/recycler_view_item_arrow_descriptor"
         android:src="@drawable/arrow" />

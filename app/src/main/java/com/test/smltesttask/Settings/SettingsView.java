@@ -33,12 +33,7 @@ public class SettingsView extends Activity {
         setContentView(R.layout.settings_view);
 
         settingsRecyclerView = (RecyclerView) findViewById(R.id.settings_recycler_view);
-
-        settingsPresenter = new SettingsPresenter(this);
-        settingsPresenter.fillHistory();
-
         rowEditText = (EditText) findViewById(R.id.settings_view_row_edit_text);
-
         fillDegreeEditText = (EditText) findViewById(R.id.settings_view_degree_fill_edit_text);
 
         okButton = (Button) findViewById(R.id.settings_ok_btn);
@@ -48,6 +43,9 @@ public class SettingsView extends Activity {
                 settingsPresenter.onClickedOkButton();
             }
         });
+
+        settingsPresenter = new SettingsPresenter(this);
+        settingsPresenter.fillHistory();
     }
 
     /**
