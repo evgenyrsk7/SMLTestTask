@@ -51,7 +51,7 @@ class SettingsPresenter {
         ArrayList<MainModel> items = DataHolder.getItemsArray();
         items.set(itemIndex, new MainModel(itemIndex, fillDegree));
         DataHolder.setItemsArray(items);
-        
+
         if (historyItems == null)
             historyItems = new ArrayList<>();
 

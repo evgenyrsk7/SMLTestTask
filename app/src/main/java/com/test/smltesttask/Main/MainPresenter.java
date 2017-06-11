@@ -1,22 +1,19 @@
 package com.test.smltesttask.Main;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 
 import com.test.smltesttask.DataHolder;
 import com.test.smltesttask.Adapters.ItemsRecyclerViewAdapter;
-import com.test.smltesttask.R;
+import com.test.smltesttask.ItemsIndexComparator;
 import com.test.smltesttask.SelectedItem.SelectedItemView;
 import com.test.smltesttask.Settings.SettingsView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by evgen on 10.06.2017.
@@ -40,6 +37,7 @@ public class MainPresenter {
             arrayOfItems = createItems();
         else
             arrayOfItems = DataHolder.readItemsArrayFromFile(mainView, "items");
+        Collections.sort(arrayOfItems, new ItemsIndexComparator());
 
         mainView.getItemsRecyclerView().addItemDecoration(getMainViewDividerItemDecoration());
         mainView.getItemsRecyclerView().setLayoutManager(getLinearLayoutManager());
