@@ -75,13 +75,17 @@ class SettingsPresenter {
         double fillDegree = Double.parseDouble(settingsView.getFillDegreeEditText().getText().toString());
         boolean set = false;
 
+        /* Replace an existed item with the new item if the put index isn't out from range */
         ArrayList<ItemModel> items = DataHolder.getItemsArray();
-        items.set(itemIndex, new ItemModel(itemIndex, fillDegree));
-        DataHolder.setItemsArray(items);
+        if (itemIndex <= items.size()) {
+            items.set(itemIndex, new ItemModel(itemIndex, fillDegree));
+            DataHolder.setItemsArray(items);
+        }
 
         if (historyItems == null)
             historyItems = new ArrayList<>();
 
+        /* Replace an existed history item */
         for (int i = 0; i < historyItems.size(); i++) {
             if (historyItems.get(i).getIndex() == itemIndex) {
                 historyItems.set(i, new ItemModel(itemIndex, fillDegree));
@@ -89,16 +93,20 @@ class SettingsPresenter {
                 break;
             }
         }
-        if (!set)
+
+        /* Add a history item if there wasn't replace and the put index isn't out from range */
+        if (!set && itemIndex <= items.size())
             historyItems.add(new ItemModel(itemIndex, fillDegree));
 
         DataHolder.setSettingsHistory(historyItems);
         DataHolder.recordItemsArrayToFile(settingsView, "history");
 
+        /* Update recycler view after changes */
         settingsHistoryRecyclerViewAdapter = new SettingsHistoryRecyclerViewAdapter(DataHolder.getSettingsHistory() == null ? new ArrayList<ItemModel>() : DataHolder.getSettingsHistory(), settingsView.getApplicationContext());
         settingsView.getSettingsRecyclerView().setAdapter(settingsHistoryRecyclerViewAdapter);
         settingsHistoryRecyclerViewAdapter.notifyDataSetChanged();
     }
+
 
     /**
      * Clear focus from edit text
