@@ -45,7 +45,7 @@ public class SettingsView extends Activity {
         });
 
         settingsPresenter = new SettingsPresenter(this);
-        settingsPresenter.fillHistory();
+        settingsPresenter.fillComponents();
     }
 
     /**

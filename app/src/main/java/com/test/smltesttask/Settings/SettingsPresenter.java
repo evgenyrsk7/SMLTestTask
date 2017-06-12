@@ -35,7 +35,7 @@ class SettingsPresenter {
     /**
      * Filling the recycler view with the changes history
      */
-    void fillHistory() {
+    void fillComponents() {
         historyItems = DataHolder.readItemsArrayFromFile(settingsView, "history");
         if (historyItems != null)
             Collections.sort(historyItems, new ItemsIndexComparator());

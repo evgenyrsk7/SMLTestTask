@@ -28,7 +28,7 @@ class SelectedItemPresenter  {
      * Show the selected item separately
      * @param selectedItem - an index of the selected item
      */
-    void showItem(int selectedItem) {
+    void fillSelectedItem(int selectedItem) {
         ItemModel itemToShow = getItemsArray().get(selectedItem);
         selectedItemView.getIndexOfItem().setText(String.valueOf(itemToShow.getIndex()));
 

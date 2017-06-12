@@ -24,8 +24,8 @@ import java.util.Collections;
 public class MainPresenter {
 
     private MainView mainView;
-    /** adapter for items */
     private ItemsRecyclerViewAdapter itemsRecyclerViewAdapter;
+    private ArrayList<ItemModel> arrayOfItems;
 
     /**
      * Constructor
@@ -38,8 +38,7 @@ public class MainPresenter {
     /**
      * Fill view's components
      */
-    void fillView() {
-        ArrayList<ItemModel> arrayOfItems;
+    void fillComponents() {
         if (DataHolder.readItemsArrayFromFile(mainView, "items") == null)
             arrayOfItems = createItems();
         else
@@ -81,6 +80,9 @@ public class MainPresenter {
         mainView.startActivity(new Intent(mainView, SelectedItemView.class).putExtras(toPass));
     }
 
+    /**
+     * Navigate to settings activity
+     */
     private void navigateToSettings() {
         mainView.startActivity(new Intent(mainView, SettingsView.class));
     }
@@ -90,7 +92,7 @@ public class MainPresenter {
      * @return - returns a new array of items when user has entered first time
      */
     private ArrayList<ItemModel> createItems() {
-        ArrayList<ItemModel> arrayOfItems = new ArrayList<>();
+        arrayOfItems = new ArrayList<>();
         int countOfItems = 100;
         for (int i = 0; i < countOfItems; i++) {
             double fillOfItemButton = 0.0;

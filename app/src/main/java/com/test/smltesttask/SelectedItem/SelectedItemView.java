@@ -37,7 +37,7 @@ public class SelectedItemView extends Activity {
         relativeLayoutForButtonBackground = (RelativeLayout) findViewById(R.id.selected_item_view_relative_layout_btn);
 
         selectedItemPresenter = new SelectedItemPresenter(this);
-        selectedItemPresenter.showItem(indexSelectedItem);
+        selectedItemPresenter.fillSelectedItem(indexSelectedItem);
     }
 
     /**

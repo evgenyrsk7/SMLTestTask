@@ -1,11 +1,8 @@
 package com.test.smltesttask.Main;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
 
 
@@ -33,7 +30,7 @@ public class MainView extends Activity {
         settingsTextView = (TextView) findViewById(R.id.main_settings_txt);
 
         mainPresenter = new MainPresenter(this);
-        mainPresenter.fillView();
+        mainPresenter.fillComponents();
     }
 
     /**
