@@ -3,6 +3,7 @@ package com.test.smltesttask.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.test.smltesttask.Adapters.SettingsHistoryRecyclerViewAdapter;
 import com.test.smltesttask.DataHolder;
@@ -71,15 +72,31 @@ class SettingsPresenter {
      * Handling a "OK" click event to accept changes of the item
      */
     void onClickedOkButton() {
-        int itemIndex = Integer.parseInt(settingsView.getRowEditText().getText().toString());
-        double fillDegree = Double.parseDouble(settingsView.getFillDegreeEditText().getText().toString());
-        boolean set = false;
+        int itemIndex = Integer.parseInt(settingsView.getRowEditText().getText().toString().equals("") ? String.valueOf(-1) : settingsView.getRowEditText().getText().toString());
+        double fillDegree = Double.parseDouble(settingsView.getFillDegreeEditText().getText().toString().equals("") ? String.valueOf(-1) : settingsView.getFillDegreeEditText().getText().toString());
+        double notFilled = -1;
+        double boundOfFillDegree = 1;
+        boolean replaced = false;
+
+        boolean isValidValues;
+        boolean isFilled;
+
+        
+        ArrayList<ItemModel> items = DataHolder.getItemsArray();
+        isValidValues = itemIndex < items.size() && fillDegree <= boundOfFillDegree;
+        isFilled = !(itemIndex == notFilled || fillDegree == notFilled);
 
         /* Replace an existed item with the new item if the put index isn't out from range */
-        ArrayList<ItemModel> items = DataHolder.getItemsArray();
-        if (itemIndex <= items.size()) {
+        if (isValidValues) {
             items.set(itemIndex, new ItemModel(itemIndex, fillDegree));
             DataHolder.setItemsArray(items);
+        } else {
+            new Toast(settingsView.getApplicationContext());
+            if (!isFilled) {
+                Toast.makeText(settingsView.getApplicationContext(), "Fill all the fields", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(settingsView.getApplicationContext(), "Invalid values entered", Toast.LENGTH_SHORT).show();
+            }
         }
 
         if (historyItems == null)
@@ -87,15 +104,15 @@ class SettingsPresenter {
 
         /* Replace an existed history item */
         for (int i = 0; i < historyItems.size(); i++) {
-            if (historyItems.get(i).getIndex() == itemIndex) {
+            if (historyItems.get(i).getIndex() == itemIndex && isValidValues) {
                 historyItems.set(i, new ItemModel(itemIndex, fillDegree));
-                set = true;
+                replaced = true;
                 break;
             }
         }
 
-        /* Add a history item if there wasn't replace and the put index isn't out from range */
-        if (!set && itemIndex <= items.size())
+        /* Add a history item if there wasn't replace and the entered values isn't out from range */
+        if (!replaced && isValidValues)
             historyItems.add(new ItemModel(itemIndex, fillDegree));
 
         DataHolder.setSettingsHistory(historyItems);
